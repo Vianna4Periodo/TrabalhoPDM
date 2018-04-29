@@ -9,15 +9,18 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 public class TimesFragment extends Fragment {
     private FrameLayout fragmentContainer;
+    ListView listTimes;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_times, container, false);
 
+        listTimes = view.findViewById(R.id.listTimes);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_times);
         return view;
     }

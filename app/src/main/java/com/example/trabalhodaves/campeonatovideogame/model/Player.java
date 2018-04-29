@@ -44,4 +44,9 @@ public class Player{
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
     }
+
+    @Override
+    public String toString(){
+        return this.nome+" - "+pontuacao+" pontos ";
+    }
 }

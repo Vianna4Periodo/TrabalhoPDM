@@ -1,6 +1,8 @@
 package com.example.trabalhodaves.campeonatovideogame;
 
 import android.animation.Animator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,10 +14,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.example.trabalhodaves.campeonatovideogame.model.Player;
+import com.example.trabalhodaves.campeonatovideogame.model.Time;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -100,7 +107,6 @@ public class NavigationActivity extends AppCompatActivity {
                     currentFragment = bottomViewPagerAdapter.getCurrentFragment();
                 }
 
-
                 if (currentFragment != null) {
                     if (currentFragment instanceof JogosFragment) {
                         jogosFrag.willBeHidden();
@@ -124,6 +130,75 @@ public class NavigationActivity extends AppCompatActivity {
                     playersFrag.willBeDisplayed();
                 }
 
+                if(position == 2){
+                    bottomNavigation.setNotification("", 1);
+
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                    floatingActionButton.setAlpha(0f);
+                    floatingActionButton.setScaleX(0f);
+                    floatingActionButton.setScaleY(0f);
+                    floatingActionButton.animate()
+                            .alpha(1)
+                            .scaleX(1)
+                            .scaleY(1)
+                            .setDuration(300)
+                            .setInterpolator(new OvershootInterpolator())
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    floatingActionButton.animate()
+                                            .setInterpolator(new LinearOutSlowInInterpolator())
+                                            .start();
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+
+                                }
+                            })
+                            .start();
+
+                    floatingActionButton.setClickable(true);
+                    floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                        final EditText edtNome = new EditText(NavigationActivity.this);
+                        final EditText edtIdade = new EditText(NavigationActivity.this);
+                        @Override
+                        public void onClick(View view) {
+                            AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
+                                    .setTitle("Inserir time:")
+                                    .setView(edtNome)
+                                    .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            DatabaseReference referencetoPlayers = database.getReference().child("Times");
+                                            Time time = new Time();
+                                            time.setNome(edtNome.getText().toString());
+                                            referencetoPlayers.child(time.getId()).setValue(time);
+                                        }
+                                    })
+                                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            // TODO: 5/4/17 Delete Task
+                                        }
+                                    })
+                                    .create();
+                            dialog.show();
+                        }
+                    });
+
+                }else
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
 
@@ -161,6 +236,37 @@ public class NavigationActivity extends AppCompatActivity {
                                 }
                             })
                             .start();
+
+                        floatingActionButton.setClickable(true);
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            final EditText edtNome = new EditText(NavigationActivity.this);
+                            final EditText edtIdade = new EditText(NavigationActivity.this);
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
+                                        .setTitle("Inserir amigo:")
+                                        .setView(edtNome)
+                                        .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                DatabaseReference referencetoPlayers = database.getReference().child("Players");
+                                                Player player = new Player();
+                                                player.setNome(edtNome.getText().toString());
+                                                player.setIdade(0);
+                                                referencetoPlayers.child(player.getId()).setValue(player);
+                                            }
+                                        })
+                                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                // TODO: 5/4/17 Delete Task
+                                            }
+                                        })
+                                        .create();
+                                dialog.show();
+                            }
+                        });
 
                 } else {
                     if (floatingActionButton.getVisibility() == View.VISIBLE) {
