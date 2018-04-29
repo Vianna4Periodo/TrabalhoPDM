@@ -1,31 +1,32 @@
 package com.example.trabalhodaves.campeonatovideogame;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.trabalhodaves.campeonatovideogame.model.Jogador;
-
-import java.util.UUID;
-
-import io.realm.Realm;
-
 public class AddTimeActivity extends AppCompatActivity {
 
     ListView jogadores;
     Button btnGravar, btnAddJogador;
-    private Realm realm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_time);
         binding();
+
+        btnGravar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         btnAddJogador.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,16 +38,9 @@ public class AddTimeActivity extends AppCompatActivity {
                         .setPositiveButton("Adiciona", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.createObject(Jogador.class, UUID.randomUUID().toString())
-                                        .setNome(String.valueOf(editText.getText()));
-                            }
-                        });
+
                     }
-                })
-                        .setNegativeButton("Cancel", null)
+                }).setNegativeButton("Cancel", null)
                         .create();
             }
         });
@@ -56,6 +50,5 @@ public class AddTimeActivity extends AppCompatActivity {
         jogadores = findViewById(R.id.listViewJogadores);
         btnGravar = findViewById(R.id.btnGravarTime);
         btnAddJogador = findViewById(R.id.btnAdicionaJogadorTime);
-        realm = Realm.getDefaultInstance();
     }
 }

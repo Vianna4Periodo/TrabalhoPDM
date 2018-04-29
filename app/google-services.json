@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "531866094682",
+    "firebase_url": "https://campeonatovideogame-69b65.firebaseio.com",
+    "project_id": "campeonatovideogame-69b65",
+    "storage_bucket": "campeonatovideogame-69b65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531866094682:android:3d7a88c2590591ee",
+        "android_client_info": {
+          "package_name": "com.example.trabalhodaves.campeonatovideogame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531866094682-tnngvmtkj7qo6htu4431hvja54hu9b1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuBIlw3Zg26YCWPTa1lV5oNmtF16HgpKU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

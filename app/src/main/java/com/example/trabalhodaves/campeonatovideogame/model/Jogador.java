@@ -1,17 +1,16 @@
 package com.example.trabalhodaves.campeonatovideogame.model;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
+import java.util.UUID;
 
-public class Jogador extends RealmObject {
-    @Required
-    @PrimaryKey
+public class Jogador {
     private String id;
-    @Required
     private String nome;
     private int golsMarcados;
     private Time time;
+
+    public Jogador(){
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getId() {
         return id;
