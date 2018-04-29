@@ -67,16 +67,19 @@ public class NavigationActivity extends AppCompatActivity {
 
         viewPagerBottom.setOffscreenPageLimit(2);
         bottomViewPagerAdapter = new BottomViewPagerAdapter(getSupportFragmentManager());
+        bottomViewPagerAdapter.add(jogosFrag);
         bottomViewPagerAdapter.add(playersFrag);
         bottomViewPagerAdapter.add(timesFrag);
-        bottomViewPagerAdapter.add(jogosFrag);
         viewPagerBottom.setAdapter(bottomViewPagerAdapter);
 
         currentFragment = bottomViewPagerAdapter.getCurrentFragment();
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_dashboard_black_24dp, R.color.color_tab_1);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_home_black_24dp, R.color.color_tab_1);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_notifications_black_24dp, R.color.color_tab_1);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1,
+                R.drawable.ic_dashboard_black_24dp, R.color.color_tab_1);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2,
+                R.drawable.ic_home_black_24dp, R.color.color_tab_1);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3,
+                R.drawable.ic_notifications_black_24dp, R.color.color_tab_1);
 
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
@@ -100,17 +103,11 @@ public class NavigationActivity extends AppCompatActivity {
 
                 if (currentFragment != null) {
                     if (currentFragment instanceof JogosFragment) {
-
                         jogosFrag.willBeHidden();
-
                     } else if (currentFragment instanceof TimesFragment) {
-
                         timesFrag.willBeHidden();
-
                     } else if (currentFragment instanceof PlayersFragment) {
-
                         playersFrag.willBeHidden();
-
                     }
                 }
 
@@ -120,19 +117,12 @@ public class NavigationActivity extends AppCompatActivity {
                 currentFragment = bottomViewPagerAdapter.getCurrentFragment();
 
                 if (currentFragment instanceof JogosFragment) {
-
                     jogosFrag.willBeDisplayed();
-
                 } else if (currentFragment instanceof TimesFragment) {
-
                     timesFrag.willBeDisplayed();
-
                 } else if (currentFragment instanceof PlayersFragment) {
-
                     playersFrag.willBeDisplayed();
-
                 }
-
 
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
