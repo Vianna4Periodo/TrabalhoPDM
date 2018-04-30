@@ -2,6 +2,7 @@ package com.example.trabalhodaves.campeonatovideogame;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,15 +15,21 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.example.trabalhodaves.campeonatovideogame.model.Player;
 import com.example.trabalhodaves.campeonatovideogame.model.Time;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -170,20 +177,57 @@ public class NavigationActivity extends AppCompatActivity {
 
                     floatingActionButton.setClickable(true);
                     floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                        final EditText edtNome = new EditText(NavigationActivity.this);
-                        final EditText edtIdade = new EditText(NavigationActivity.this);
                         @Override
                         public void onClick(View view) {
+
+                            Context context = view.getContext();
+                            final LinearLayout layout = new LinearLayout(context);
+                            layout.setOrientation(LinearLayout.VERTICAL);
+
+
+                            final EditText nomeBox = new EditText(context);
+                            nomeBox.setHint("Nome:");
+                            layout.addView(nomeBox); // Notice this is an add method
+
+                            final Spinner playerBox = new Spinner(context);
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference referencePlayers = database.getReference().child("Players");
+
+                            referencePlayers.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    ArrayList<Player> players = new ArrayList<>();
+                                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                                        Player m = ds.getValue(Player.class);
+
+                                        players.add(m);
+                                    }
+                                    ArrayAdapter<Player> adapter = new ArrayAdapter<>(layout.getContext(),
+                                            android.R.layout.simple_list_item_1, players);
+                                    playerBox.setAdapter(adapter);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                            layout.addView(playerBox); // Another add method
+
                             AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
                                     .setTitle("Inserir time:")
-                                    .setView(edtNome)
+                                    .setView(layout)
                                     .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                                             DatabaseReference referencetoPlayers = database.getReference().child("Times");
                                             Time time = new Time();
-                                            time.setNome(edtNome.getText().toString());
+                                            time.setNome(nomeBox.getText().toString());
+                                            time.setPlayer((Player) playerBox.getSelectedItem());
                                             referencetoPlayers.child(time.getId()).setValue(time);
                                         }
                                     })
@@ -239,21 +283,33 @@ public class NavigationActivity extends AppCompatActivity {
 
                         floatingActionButton.setClickable(true);
                         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            final EditText edtNome = new EditText(NavigationActivity.this);
-                            final EditText edtIdade = new EditText(NavigationActivity.this);
                             @Override
                             public void onClick(View view) {
+                                Context context = view.getContext();
+                                final LinearLayout layout = new LinearLayout(context);
+                                layout.setOrientation(LinearLayout.VERTICAL);
+
+// Add a TextView here for the "Title" label, as noted in the comments
+                                final EditText nomeBox = new EditText(context);
+                                nomeBox.setHint("Nome:");
+                                layout.addView(nomeBox); // Notice this is an add method
+
+// Add another TextView here for the "Description" label
+                                final EditText idadeBox = new EditText(context);
+                                idadeBox.setHint("Idade");
+                                layout.addView(idadeBox); // Another add method
+
                                 AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
                                         .setTitle("Inserir amigo:")
-                                        .setView(edtNome)
+                                        .setView(layout)
                                         .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                                 DatabaseReference referencetoPlayers = database.getReference().child("Players");
                                                 Player player = new Player();
-                                                player.setNome(edtNome.getText().toString());
-                                                player.setIdade(0);
+                                                player.setNome(nomeBox.getText().toString());
+                                                player.setIdade(Integer.parseInt(idadeBox.getText().toString()));
                                                 referencetoPlayers.child(player.getId()).setValue(player);
                                             }
                                         })

@@ -1,8 +1,9 @@
 package com.example.trabalhodaves.campeonatovideogame.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Jogador {
+public class Jogador implements Serializable {
     private String id;
     private String nome;
     private int golsMarcados;

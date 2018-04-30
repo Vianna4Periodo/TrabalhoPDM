@@ -1,9 +1,10 @@
 package com.example.trabalhodaves.campeonatovideogame.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class Time{
+public class Time implements Serializable {
     private String id;
     private Player player;
     private String nome;
@@ -43,5 +44,10 @@ public class Time{
 
     public Time(){
         this.id = UUID.randomUUID().toString();
+    }
+
+    public String toString(){
+        return nome;
+
     }
 }

@@ -8,12 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+
+import com.example.trabalhodaves.campeonatovideogame.model.Time;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class TimesFragment extends Fragment {
     private FrameLayout fragmentContainer;
     ListView listTimes;
+    FirebaseDatabase database;
 
     @Nullable
     @Override
@@ -22,8 +34,45 @@ public class TimesFragment extends Fragment {
 
         listTimes = view.findViewById(R.id.listTimes);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_times);
+        database = FirebaseDatabase.getInstance();
+
+
+        DatabaseReference referenceTimes = database.getReference().child("Times");
+        referenceTimes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                preencherListView(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
         return view;
     }
+
+    private void preencherListView(DataSnapshot dataSnapshot) {
+        ArrayList<Time> players = new ArrayList<>();
+        for (DataSnapshot ds: dataSnapshot.getChildren()) {
+            Time m = ds.getValue(Time.class);
+
+            players.add(m);
+        }
+        ArrayAdapter<Time> adapter = new ArrayAdapter<>(fragmentContainer.getContext(), android.R.layout.simple_list_item_1, players);
+        listTimes.setAdapter(adapter);
+
+        listTimes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+   //             Time selecionado = (Time) adapterView.getItemAtPosition(i);
+   //             Intent itn = new Intent(getContext(), TimesDetalheFragment.class);
+   //             itn.putExtra("time", selecionado);
+   //             startActivity(itn);
+            }
+        });
+    }
+
+
 
     public TimesFragment(){
 

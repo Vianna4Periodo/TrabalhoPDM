@@ -39,11 +39,13 @@ public class PlayersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_players, container, false);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference referencePlayers = database.getReference().child("Players");
+
         
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_players);
         listView = view.findViewById(R.id.listViewPlayers);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference referencePlayers = database.getReference().child("Players");
         referencePlayers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
