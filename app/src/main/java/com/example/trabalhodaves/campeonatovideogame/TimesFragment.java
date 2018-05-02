@@ -36,7 +36,6 @@ public class TimesFragment extends Fragment {
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_times);
         database = FirebaseDatabase.getInstance();
 
-
         DatabaseReference referenceTimes = database.getReference().child("Times");
         referenceTimes.addValueEventListener(new ValueEventListener() {
             @Override

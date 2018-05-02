@@ -16,10 +16,12 @@ public class AddPlayerActivity extends AppCompatActivity {
     Button btnGravarPlayer;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_player);
+
 
         binding();
 
