@@ -2,6 +2,9 @@ package com.example.trabalhodaves.campeonatovideogame;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -366,5 +369,14 @@ public class NavigationActivity extends AppCompatActivity {
                 Log.d("DemoActivity", "BottomNavigation Position: " + y);
             }
         });
+    }
+
+    public void changeFragment(Time timeSelecionado) {
+        android.support.v4.app.FragmentManager manager =  getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction tx = manager.beginTransaction();
+
+       tx.replace(currentFragment.getId(), new TimesDetalheFragment());
+       tx.commit();
+
     }
 }

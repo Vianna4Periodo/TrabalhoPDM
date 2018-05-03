@@ -63,16 +63,17 @@ public class TimesFragment extends Fragment {
         listTimes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-   //             Time selecionado = (Time) adapterView.getItemAtPosition(i);
-   //             Intent itn = new Intent(getContext(), TimesDetalheFragment.class);
-   //             itn.putExtra("time", selecionado);
-   //             startActivity(itn);
+                Time timeSelecionado = (Time) adapterView.getItemAtPosition(i);
+
+                NavigationActivity activity = (NavigationActivity) getActivity();
+                activity.changeFragment(timeSelecionado);
+
             }
         });
     }
 
 
-
+//13160 ano
     public TimesFragment(){
 
     }
