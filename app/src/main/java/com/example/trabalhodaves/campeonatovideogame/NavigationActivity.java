@@ -12,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -66,6 +68,13 @@ public class NavigationActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater  = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +250,6 @@ public class NavigationActivity extends AppCompatActivity {
                             dialog.show();
                         }
                     });
-
                 }else
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
