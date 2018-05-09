@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.example.trabalhodaves.campeonatovideogame.model.Player;
+import com.example.trabalhodaves.campeonatovideogame.model.Time;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,14 +40,12 @@ public class PlayersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_players, container, false);
 
-
-        
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_players);
         listView = view.findViewById(R.id.listViewPlayers);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference referencePlayers = database.getReference().child("Players");
-        referencePlayers.addValueEventListener(new ValueEventListener() {
+        DatabaseReference referenceTimes = database.getReference().child("Times");
+        referenceTimes.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 preencherListView(dataSnapshot);
@@ -64,9 +63,9 @@ public class PlayersFragment extends Fragment {
     private void preencherListView(DataSnapshot dataSnapshot) {
         ArrayList<Player> players = new ArrayList<>();
         for (DataSnapshot ds: dataSnapshot.getChildren()) {
-            Player m = ds.getValue(Player.class);
+            Time m = ds.getValue(Time.class);
 
-            players.add(m);
+            players.add(m.getPlayer());
         }
         ArrayAdapter<Player> adapter = new ArrayAdapter<>(fragmentContainer.getContext(), android.R.layout.simple_list_item_1, players);
         listView.setAdapter(adapter);

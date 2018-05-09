@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -141,6 +142,7 @@ public class NavigationActivity extends AppCompatActivity {
                 }
 
                 if(position == 2){
+                    //isto é executado se o fab for clicado na tela de times
                     bottomNavigation.setNotification("", 1);
 
                     floatingActionButton.setVisibility(View.VISIBLE);
@@ -197,6 +199,7 @@ public class NavigationActivity extends AppCompatActivity {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference referencePlayers = database.getReference().child("Players");
 
+
                             referencePlayers.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -209,6 +212,8 @@ public class NavigationActivity extends AppCompatActivity {
                                     ArrayAdapter<Player> adapter = new ArrayAdapter<>(layout.getContext(),
                                             android.R.layout.simple_list_item_1, players);
                                     playerBox.setAdapter(adapter);
+
+
                                 }
 
                                 @Override
@@ -226,12 +231,23 @@ public class NavigationActivity extends AppCompatActivity {
                                     .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                            DatabaseReference referencetoPlayers = database.getReference().child("Times");
-                                            Time time = new Time();
-                                            time.setNome(nomeBox.getText().toString());
-                                            time.setPlayer((Player) playerBox.getSelectedItem());
-                                            referencetoPlayers.child(time.getId()).setValue(time);
+                                            Player player = (Player) playerBox.getSelectedItem();
+                                            if(player == null){
+                                                Toast.makeText(getApplicationContext(),"Não é " +
+                                                        "possível criar um time sem um amigo vinculado!",
+                                                        Toast.LENGTH_LONG)
+                                                        .show();
+                                            }else {
+                                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                DatabaseReference referenceTimes = database.getReference().child("Times");
+                                                DatabaseReference referencePlayers = database.getReference().child("Players");
+                                                Time time = new Time();
+
+                                                time.setNome(nomeBox.getText().toString());
+                                                time.setPlayer(player);
+                                                referenceTimes.child(time.getId()).setValue(time);
+                                                referencePlayers.child(player.getId()).removeValue();
+                                            }
                                         }
                                     })
                                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -247,6 +263,8 @@ public class NavigationActivity extends AppCompatActivity {
 
                 }else
                 if (position == 1) {
+
+                    //isto é executado se o fab for clicado na tela de amigos
                     bottomNavigation.setNotification("", 1);
 
                     floatingActionButton.setVisibility(View.VISIBLE);
