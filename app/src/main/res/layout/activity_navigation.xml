@@ -7,7 +7,8 @@
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
         android:id="@+id/view_pager_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_action_button"
