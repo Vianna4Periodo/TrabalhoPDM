@@ -20,7 +20,7 @@ public class JogosAdapter extends BaseAdapter {
 
     public JogosAdapter(Context context, ArrayList<Jogo> lista) {
         this.context = context;
-        jogos = lista;
+
     }
 
     @Override
