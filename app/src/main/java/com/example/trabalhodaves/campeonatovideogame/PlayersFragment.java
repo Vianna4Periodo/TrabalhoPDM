@@ -34,12 +34,14 @@ import java.util.ArrayList;
 public class PlayersFragment extends Fragment {
     private FrameLayout fragmentContainer;
     ListView listView;
+    ArrayList<Player> players;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_players, container, false);
 
+        players = new ArrayList<>();
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_players);
         listView = view.findViewById(R.id.listViewPlayers);
 
@@ -48,7 +50,17 @@ public class PlayersFragment extends Fragment {
         referenceTimes.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                preencherListView(dataSnapshot);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Time m = ds.getValue(Time.class);
+
+                    boolean flag = false;
+                    for (Player x : players) {
+                        if(x.getId() == m.getPlayer().getId())
+                            flag = true;
+                    }
+                    if(!flag)
+                        players.add(m.getPlayer());
+                }
             }
 
             @Override
@@ -57,19 +69,37 @@ public class PlayersFragment extends Fragment {
             }
         });
 
+        DatabaseReference referencePlayers = database.getReference().child("Players");
+        referencePlayers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Player p = ds.getValue(Player.class);
+                    boolean flag = false;
+                    for (Player x : players) {
+                        if(x.getId() == p.getId())
+                            flag = true;
+                    }
+                    if(!flag)
+                        players.add(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        preencherListView();
         return view;
     }
 
-    private void preencherListView(DataSnapshot dataSnapshot) {
-        ArrayList<Player> players = new ArrayList<>();
-        for (DataSnapshot ds: dataSnapshot.getChildren()) {
-            Time m = ds.getValue(Time.class);
+    private void preencherListView() {
 
-            players.add(m.getPlayer());
-        }
         ArrayAdapter<Player> adapter = new ArrayAdapter<>(fragmentContainer.getContext(), android.R.layout.simple_list_item_1, players);
         listView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
     }
 
     public PlayersFragment(){

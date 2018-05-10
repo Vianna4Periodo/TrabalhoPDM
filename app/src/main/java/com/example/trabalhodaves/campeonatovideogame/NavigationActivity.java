@@ -2,9 +2,6 @@ package com.example.trabalhodaves.campeonatovideogame;
 
 import android.animation.Animator;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -53,6 +50,8 @@ public class NavigationActivity extends AppCompatActivity {
     private AHBottomNavigation bottomNavigation;
     private FloatingActionButton floatingActionButton;
 
+    private ArrayList<Time> times = new ArrayList<>();
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -81,9 +80,46 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sorteio_jogos:
+                sortearJogos();
+        }
+        return true;
+    }
+
+
+
+    private void sortearJogos() {
+        if(times.size()<2){
+            Toast.makeText(this.getApplicationContext(),"Não há times suficientes",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_navigation);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference referenceTimes = database.getReference().child("Times");
+        referenceTimes.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Time m = ds.getValue(Time.class);
+                    times.add(m);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         initUI();
     }
 
@@ -401,8 +437,12 @@ public class NavigationActivity extends AppCompatActivity {
         android.support.v4.app.FragmentManager manager =  getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction tx = manager.beginTransaction();
 
-       tx.replace(currentFragment.getId(), new TimesDetalheFragment());
-       tx.commit();
+        TimesDetalheFragment detalheFragment = new TimesDetalheFragment();
+        Bundle parametros = new Bundle();
+        parametros.putSerializable("time", timeSelecionado);
+        detalheFragment.setArguments(parametros);
 
+        tx.replace(currentFragment.getId(), detalheFragment);
+        tx.commit();
     }
 }

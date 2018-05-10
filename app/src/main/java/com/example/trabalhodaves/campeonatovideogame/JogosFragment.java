@@ -27,6 +27,8 @@ public class JogosFragment extends Fragment {
 
     }
 
+
+
     /**
      * Called when a fragment will be displayed
      */
