@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.trabalhodaves.campeonatovideogame.adapter.JogosAdapter;
 import com.example.trabalhodaves.campeonatovideogame.model.Jogo;
+import com.example.trabalhodaves.campeonatovideogame.model.Time;
 
 import java.util.ArrayList;
 
@@ -26,9 +27,13 @@ public class JogosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jogos, container, false);
-
         Jogo jogo = new Jogo();
 
+        jogo.setTimeA(new Time());
+        jogo.setTimeB(new Time());
+        jogo.setPlacarTimeA(1);
+        jogo.setPlacarTimeB(0);
+        jogos.add(jogo);
         listJogos = view.findViewById(R.id.listJogos);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_jogos);
         JogosAdapter adapter = new JogosAdapter(view.getContext(), jogos);
@@ -40,8 +45,6 @@ public class JogosFragment extends Fragment {
     public JogosFragment(){
 
     }
-
-
 
     /**
      * Called when a fragment will be displayed
