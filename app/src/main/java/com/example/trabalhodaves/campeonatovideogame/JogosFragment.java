@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import com.example.trabalhodaves.campeonatovideogame.adapter.JogosAdapter;
 import com.example.trabalhodaves.campeonatovideogame.model.Jogo;
 
 import java.util.ArrayList;
@@ -27,13 +25,13 @@ public class JogosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jogos, container, false);
 
-        Jogo jogo = new Jogo();
-
-        listJogos = view.findViewById(R.id.listJogos);
-        fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_jogos);
-        JogosAdapter adapter = new JogosAdapter(view.getContext(), jogos);
-
-        listJogos.setAdapter(adapter);
+//        Jogo jogo = new Jogo();
+//
+//        listJogos = view.findViewById(R.id.listJogos);
+//        fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_jogos);
+//        JogosAdapter adapter = new JogosAdapter(view.getContext(), jogos);
+//
+//        listJogos.setAdapter(adapter);
         return view;
     }
 
