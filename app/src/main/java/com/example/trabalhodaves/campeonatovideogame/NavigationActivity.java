@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.example.trabalhodaves.campeonatovideogame.model.Jogo;
 import com.example.trabalhodaves.campeonatovideogame.model.Player;
 import com.example.trabalhodaves.campeonatovideogame.model.Time;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -89,15 +92,45 @@ public class NavigationActivity extends AppCompatActivity {
         return true;
     }
 
-
-
-    private void sortearJogos() {
+    private List<Jogo> sortearJogos() {
         if(times.size()<2){
             Toast.makeText(this.getApplicationContext(),"Não há times suficientes",
                     Toast.LENGTH_LONG).show();
-            return;
+            return new ArrayList<Jogo>();
         }
 
+        ArrayList<Time> timesTemp = this.times;
+        ArrayList<Jogo> jogos = new ArrayList<Jogo>();
+
+        for (Time time : timesTemp) {
+            Time firstTime = time;
+
+            timesTemp.remove(time);
+
+            // Randomizando time
+            int min = 0;
+            int max = timesTemp.size() - 1;
+            Random rnd = new Random();
+            int index = rnd.nextInt(max - min + 1) + min;
+
+            Time secondTime = timesTemp.get(index);
+
+            if (secondTime == null) {
+                secondTime = this.times.get(0);
+            }
+
+            timesTemp.remove(secondTime);
+
+            // Randomizando placar
+            int maxPlacar = 20;
+            int firstTimeRandomPlacar = rnd.nextInt(maxPlacar);
+            int secondTimeRandomPlacar = rnd.nextInt(maxPlacar);
+
+            Jogo newJogo = new Jogo(firstTime, secondTime, firstTimeRandomPlacar, secondTimeRandomPlacar);
+            jogos.add(newJogo);
+        }
+
+        return jogos;
     }
 
     @Override
