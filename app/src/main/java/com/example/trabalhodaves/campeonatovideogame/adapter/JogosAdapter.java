@@ -9,26 +9,26 @@ import android.widget.TextView;
 import com.example.trabalhodaves.campeonatovideogame.model.Jogo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JogosAdapter extends BaseAdapter {
 
-    private final ArrayList<Jogo> jogos = new ArrayList<>();
     private final Context context;
+    private List<Jogo> jogos;
 
-
-    public JogosAdapter(Context context, ArrayList<Jogo> lista) {
+    public JogosAdapter(Context context, ArrayList<Jogo> jogos) {
         this.context = context;
-
+        this.jogos = jogos;
     }
 
     @Override
     public int getCount() {
-        return 7;
+        return jogos.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Jogo getItem(int position) {
+        return jogos.get(position);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class JogosAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView view = new TextView(context);
-        view.setText("Item "+position);
-        return null;
+        view.setText("View da posicao "+position);
+        return view;
     }
 }

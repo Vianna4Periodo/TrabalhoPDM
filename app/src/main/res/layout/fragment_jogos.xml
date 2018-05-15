@@ -10,8 +10,15 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ListView
-        android:id="@+id/listJogos"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listJogos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 </FrameLayout>
