@@ -14,6 +14,20 @@ public class Jogo  implements Serializable {
         this.id = UUID.randomUUID().toString();
     }
 
+    public Jogo(Time timeA, Time timeB, int placarTimeA, int placarTimeB) {
+        this.timeA = timeA;
+        this.timeB = timeB;
+        this.placarTimeA = placarTimeA;
+        this.placarTimeB = placarTimeB;
+    }
+
+    public Jogo(Time timeA, Time timeB) {
+        this.timeA = timeA;
+        this.timeB = timeB;
+        this.placarTimeA = 0;
+        this.placarTimeB = 0;
+    }
+
     public String getId() {
         return id;
     }
