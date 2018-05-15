@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Player implements Serializable {
 
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private String nome;
     private int idade;
     private int pontuacao;

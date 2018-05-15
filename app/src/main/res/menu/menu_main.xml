@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/sorteio_jogos"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/reinicio_jogos"
+        android:orderInCategory="100"
+        android:title="Reiniciar"
+        app:showAsAction="never"/>
 </menu>
