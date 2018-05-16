@@ -395,29 +395,29 @@ public class NavigationActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 Context context = view.getContext();
-                                final LinearLayout layout = new LinearLayout(context);
-                                layout.setOrientation(LinearLayout.VERTICAL);
+                                                final LinearLayout layout = new LinearLayout(context);
+                                                layout.setOrientation(LinearLayout.VERTICAL);
 
 // Add a TextView here for the "Title" label, as noted in the comments
-                                final EditText nomeBox = new EditText(context);
-                                nomeBox.setHint("Nome:");
-                                layout.addView(nomeBox); // Notice this is an add method
+                                                final EditText nomeBox = new EditText(context);
+                                                nomeBox.setHint("Nome:");
+                                                layout.addView(nomeBox); // Notice this is an add method
 
 // Add another TextView here for the "Description" label
-                                final EditText idadeBox = new EditText(context);
-                                idadeBox.setHint("Idade");
-                                layout.addView(idadeBox); // Another add method
+                                                final EditText idadeBox = new EditText(context);
+                                                idadeBox.setHint("Idade");
+                                                layout.addView(idadeBox); // Another add method
 
-                                AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
-                                        .setTitle("Inserir amigo:")
-                                        .setView(layout)
-                                        .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                                DatabaseReference referencetoPlayers = database.getReference().child("Players");
-                                                Player player = new Player();
-                                                player.setNome(nomeBox.getText().toString());
+                                                AlertDialog dialog = new AlertDialog.Builder(NavigationActivity.this)
+                                                        .setTitle("Inserir amigo:")
+                                                        .setView(layout)
+                                                        .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                                DatabaseReference referencetoPlayers = database.getReference().child("Players");
+                                                                Player player = new Player();
+                                                                player.setNome(nomeBox.getText().toString());
                                                 player.setIdade(Integer.parseInt(idadeBox.getText().toString()));
                                                 referencetoPlayers.child(player.getId()).setValue(player);
                                             }
