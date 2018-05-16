@@ -15,6 +15,7 @@ public class Jogo  implements Serializable {
     }
 
     public Jogo(Time timeA, Time timeB, int placarTimeA, int placarTimeB) {
+        this.id = UUID.randomUUID().toString();
         this.timeA = timeA;
         this.timeB = timeB;
         this.placarTimeA = placarTimeA;
@@ -22,6 +23,7 @@ public class Jogo  implements Serializable {
     }
 
     public Jogo(Time timeA, Time timeB) {
+        this.id = UUID.randomUUID().toString();
         this.timeA = timeA;
         this.timeB = timeB;
         this.placarTimeA = 0;
@@ -64,5 +66,8 @@ public class Jogo  implements Serializable {
         this.placarTimeB = placarTimeB;
     }
 
-
+    @Override
+    public String toString() {
+        return this.id;
+    }
 }

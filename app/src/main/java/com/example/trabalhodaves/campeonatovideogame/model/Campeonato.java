@@ -1,14 +1,26 @@
 package com.example.trabalhodaves.campeonatovideogame.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Campeonato implements Serializable {
     private String id;
     private String nome;
     private String status;
+    private ArrayList<Jogo> jogos;
+
+    public ArrayList<Jogo> getJogos() {
+        return jogos;
+    }
+
+    public void addJogo(Jogo jogo){
+        this.jogos.add(jogo);
+    }
+
 
     public Campeonato() {
+        jogos = new ArrayList<>();
         this.id = UUID.randomUUID().toString();
     }
 

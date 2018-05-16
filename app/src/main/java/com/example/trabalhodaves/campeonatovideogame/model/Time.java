@@ -17,7 +17,7 @@ public class Time implements Serializable {
         this.nome = null;
     }
 
-    public Time(String id, Player player, String nome) {
+    public Time(Player player, String nome) {
         this.id = UUID.randomUUID().toString();
         this.player = player;
         this.nome = nome;
@@ -81,12 +81,7 @@ public class Time implements Serializable {
 
     @Override
     public String toString() {
-        return "Time{" +
-                "id='" + id + '\'' +
-                ", player=" + player +
-                ", nome='" + nome + '\'' +
-                ", jogadores=" + jogadores +
-                '}';
+        return this.getNome();
     }
 
 }

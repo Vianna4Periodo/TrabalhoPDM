@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.example.trabalhodaves.campeonatovideogame.model.Campeonato;
 import com.example.trabalhodaves.campeonatovideogame.model.Jogo;
 import com.example.trabalhodaves.campeonatovideogame.model.Player;
 import com.example.trabalhodaves.campeonatovideogame.model.Time;
@@ -54,6 +55,9 @@ public class NavigationActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
 
     private ArrayList<Time> times = new ArrayList<>();
+    private List<Jogo> jogos = new ArrayList<>();
+
+    public Campeonato campeonato = new Campeonato();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,6 +80,7 @@ public class NavigationActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater  = getMenuInflater();
@@ -87,39 +92,42 @@ public class NavigationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.sorteio_jogos:
-                sortearJogos();
+                this.jogos = sortearJogos();
         }
         return true;
     }
 
-    private List<Jogo> sortearJogos() {
+    public ArrayList<Jogo> sortearJogos() {
         if(times.size()<2){
             Toast.makeText(this.getApplicationContext(),"Não há times suficientes",
                     Toast.LENGTH_LONG).show();
-            return new ArrayList<Jogo>();
+            return new ArrayList<>();
         }
 
         ArrayList<Time> timesTemp = this.times;
-        ArrayList<Jogo> jogos = new ArrayList<Jogo>();
+        ArrayList<Jogo> jogos = new ArrayList<>();
+        ArrayList<Integer> indices = new ArrayList<>();
+
+        for(int i = 0; i < timesTemp.size(); i++){
+            indices.add(i);
+        }
 
         for (Time time : timesTemp) {
             Time firstTime = time;
 
-            timesTemp.remove(time);
-
             // Randomizando time
             int min = 0;
-            int max = timesTemp.size() - 1;
+            int max = indices.size() - 1;
             Random rnd = new Random();
             int index = rnd.nextInt(max - min + 1) + min;
 
             Time secondTime = timesTemp.get(index);
 
+            indices.remove(index);
+
             if (secondTime == null) {
                 secondTime = this.times.get(0);
             }
-
-            timesTemp.remove(secondTime);
 
             // Randomizando placar
             int maxPlacar = 20;
@@ -127,10 +135,11 @@ public class NavigationActivity extends AppCompatActivity {
             int secondTimeRandomPlacar = rnd.nextInt(maxPlacar);
 
             Jogo newJogo = new Jogo(firstTime, secondTime, firstTimeRandomPlacar, secondTimeRandomPlacar);
+            campeonato.addJogo(newJogo);
             jogos.add(newJogo);
         }
 
-        return jogos;
+        return new ArrayList<Jogo>();
     }
 
     @Override
@@ -140,6 +149,7 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference referenceTimes = database.getReference().child("Times");
+
         referenceTimes.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
