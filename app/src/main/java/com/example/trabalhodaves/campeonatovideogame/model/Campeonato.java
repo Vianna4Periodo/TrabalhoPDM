@@ -6,8 +6,6 @@ import java.util.UUID;
 
 public class Campeonato implements Serializable {
     private String id;
-    private String nome;
-    private String status;
     private ArrayList<Jogo> jogos;
 
     public ArrayList<Jogo> getJogos() {
@@ -18,6 +16,10 @@ public class Campeonato implements Serializable {
         this.jogos.add(jogo);
     }
 
+    public Campeonato(String id){
+        jogos = new ArrayList<>();
+        this.id = id;
+    }
 
     public Campeonato() {
         jogos = new ArrayList<>();
@@ -26,21 +28,5 @@ public class Campeonato implements Serializable {
 
     public String getId() {
         return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
